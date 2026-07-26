@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { Button } from "../ui/button";
 import { File, Github, Linkedin, Mail } from "lucide-react";
 import {
@@ -16,12 +16,14 @@ import { config } from "@/data/config";
 
 import SectionWrapper from "../ui/section-wrapper";
 
+const TechStackScene = lazy(() => import("../tech-stack-scene"));
+
 const HeroSection = () => {
   const { isLoading } = usePreloader();
 
   return (
     <SectionWrapper id="hero" className={cn("relative w-full h-screen")}>
-      <div className="grid md:grid-cols-2">
+      <div className="grid md:grid-cols-2 md:items-center">
         <div
           className={cn(
             "h-[calc(100dvh-3rem)] md:h-[calc(100dvh-4rem)] z-[2]",
@@ -40,7 +42,7 @@ const HeroSection = () => {
                       "cursor-default sm:text-xl md:text-xl whitespace-nowrap bg-clip-text "
                     )}
                   >
-                    Hi, I am
+                    Hola, soy
                     <br className="md:hidden" />
                   </p>
                 </BlurIn>
@@ -64,7 +66,7 @@ const HeroSection = () => {
                       side="top"
                       className="dark:bg-white dark:text-black"
                     >
-                      theres something waiting for you in devtools
+                      hay algo esperándote en las devtools
                     </TooltipContent>
                   </Tooltip>
                 </BlurIn>
@@ -89,12 +91,12 @@ const HeroSection = () => {
                           variant={"outline"}
                           className="block w-full overflow-hidden"
                         >
-                          Hire Me
+                          Contrátame
                         </Button>
                       </Link>
                     </TooltipTrigger>
                     <TooltipContent side="bottom">
-                      <p>pls 🥹 🙏</p>
+                      <p>porfa 🥹 🙏</p>
                     </TooltipContent>
                   </Tooltip>
                   <div className="flex items-center h-full gap-2">
@@ -127,7 +129,14 @@ const HeroSection = () => {
             </div>
           )}
         </div>
-        <div className="grid col-span-1"></div>
+        <div className="grid col-span-1 relative w-full h-[320px] md:h-[420px] isolate will-change-transform">
+          <Suspense fallback={null}>
+            <TechStackScene />
+          </Suspense>
+          <p className="absolute bottom-0 left-0 right-0 text-center text-xs text-muted-foreground">
+            (pulsa una tecla o haz clic)
+          </p>
+        </div>
       </div>
       <div className="absolute bottom-10 left-[50%] translate-x-[-50%]">
         <ScrollDownIcon />

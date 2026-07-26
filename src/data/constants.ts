@@ -1,34 +1,19 @@
-// Keycap object names below must match what exists inside
-// public/assets/skills-keyboard.spline. Only keys with a matching physical
-// keycap in that scene are listed in SKILLS — everything else in the enum
-// stays for type-safety but has no data, so those keycaps just sit inert
-// (see animated-background.tsx, which already null-checks every lookup).
 export enum SkillNames {
+  PHP = "php",
+  LARAVEL = "laravel",
+  PYTHON = "python",
+  MYSQL = "mysql",
+  ELOQUENT = "eloquent",
+  APIS_REST = "apis-rest",
   JS = "js",
-  TS = "ts",
   HTML = "html",
   CSS = "css",
   REACT = "react",
-  VUE = "vue",
-  NEXTJS = "nextjs",
-  TAILWIND = "tailwind",
-  NODEJS = "nodejs",
-  EXPRESS = "express",
-  POSTGRES = "postgres",
-  MONGODB = "mongodb",
   GIT = "git",
   GITHUB = "github",
-  PRETTIER = "prettier",
   NPM = "npm",
-  FIREBASE = "firebase",
-  WORDPRESS = "wordpress",
-  LINUX = "linux",
-  DOCKER = "docker",
-  NGINX = "nginx",
-  AWS = "aws",
-  GCP = "gcp",
-  VIM = "vim",
-  VERCEL = "vercel",
+  VSCODE = "vscode",
+  VITE = "vite",
 }
 export type Skill = {
   id: number;
@@ -39,66 +24,126 @@ export type Skill = {
   icon: string;
 };
 
-// Only the skills Israel actually has that also happen to exist as keycaps
-// in the inherited Spline scene. His real core stack (PHP, Laravel, Python,
-// MySQL) has no matching keycap object — see README section on the 3D
-// keyboard for how to add them in Spline's editor.
-export const SKILLS: Partial<Record<SkillNames, Skill>> = {
-  [SkillNames.JS]: {
+export const SKILLS: Record<SkillNames, Skill> = {
+  [SkillNames.PHP]: {
     id: 1,
+    name: "php",
+    label: "PHP",
+    shortDescription: "Lenguaje principal en el backend.",
+    color: "#8b5cf6",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",
+  },
+  [SkillNames.LARAVEL]: {
+    id: 2,
+    name: "laravel",
+    label: "Laravel",
+    shortDescription: "Framework backend principal.",
+    color: "#f4623a",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg",
+  },
+  [SkillNames.PYTHON]: {
+    id: 3,
+    name: "python",
+    label: "Python",
+    shortDescription: "Especialización reciente.",
+    color: "#3b82f6",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+  },
+  [SkillNames.MYSQL]: {
+    id: 4,
+    name: "mysql",
+    label: "MySQL",
+    shortDescription: "Diseño y consultas de bases de datos.",
+    color: "#f59e0b",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
+  },
+  [SkillNames.ELOQUENT]: {
+    id: 5,
+    name: "eloquent",
+    label: "Eloquent ORM",
+    shortDescription: "ORM de Laravel para el acceso a datos.",
+    color: "#a78bfa",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg",
+  },
+  [SkillNames.APIS_REST]: {
+    id: 6,
+    name: "apis-rest",
+    label: "APIs REST",
+    shortDescription: "Diseño y consumo de APIs REST.",
+    color: "#2dd4bf",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/json/json-original.svg",
+  },
+  [SkillNames.JS]: {
+    id: 7,
     name: "js",
     label: "JavaScript",
-    shortDescription: "Used for interactivity on the frontend.",
+    shortDescription: "Interactividad en el frontend.",
     color: "#f0db4f",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
   },
   [SkillNames.HTML]: {
-    id: 3,
+    id: 8,
     name: "html",
     label: "HTML5",
-    shortDescription: "Semantic markup for every project.",
+    shortDescription: "Marcado semántico en todos los proyectos.",
     color: "#e34c26",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
   },
   [SkillNames.CSS]: {
-    id: 4,
+    id: 9,
     name: "css",
     label: "CSS3",
-    shortDescription: "Responsive layouts and styling.",
+    shortDescription: "Maquetación responsive.",
     color: "#563d7c",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
   },
   [SkillNames.REACT]: {
-    id: 5,
+    id: 10,
     name: "react",
     label: "React",
-    shortDescription: "Currently learning — basic level.",
+    shortDescription: "Nivel básico, aprendiendo.",
     color: "#61dafb",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
   },
   [SkillNames.GIT]: {
-    id: 13,
+    id: 11,
     name: "git",
     label: "Git",
-    shortDescription: "Version control for every project.",
+    shortDescription: "Control de versiones en todos los proyectos.",
     color: "#f1502f",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
   },
   [SkillNames.GITHUB]: {
-    id: 14,
+    id: 12,
     name: "github",
     label: "GitHub",
-    shortDescription: "Where the code lives.",
+    shortDescription: "Donde vive el código.",
     color: "#000000",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
   },
   [SkillNames.NPM]: {
-    id: 16,
+    id: 13,
     name: "npm",
     label: "npm",
-    shortDescription: "Package management for frontend tooling.",
+    shortDescription: "Gestión de paquetes frontend.",
     color: "#cb3837",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/npm/npm-original-wordmark.svg",
+  },
+  [SkillNames.VSCODE]: {
+    id: 14,
+    name: "vscode",
+    label: "VS Code",
+    shortDescription: "Editor de código principal.",
+    color: "#007acc",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
+  },
+  [SkillNames.VITE]: {
+    id: 15,
+    name: "vite",
+    label: "Vite",
+    shortDescription: "Herramienta de build para frontend.",
+    color: "#646cff",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg",
   },
 };
 
@@ -115,8 +160,8 @@ export type Experience = {
 export const EXPERIENCE: Experience[] = [
   {
     id: 1,
-    startDate: "Apr 2025",
-    endDate: "Aug 2025",
+    startDate: "Abr 2025",
+    endDate: "Ago 2025",
     title: "Desarrollo web — El Campito Zafra",
     company: "Freelance",
     description: [
@@ -124,7 +169,7 @@ export const EXPERIENCE: Experience[] = [
       "Gestión de disponibilidad, sistema de reservas y notificaciones por correo electrónico.",
       "Panel de administración a medida construido con Laravel y Filament.",
     ],
-    skills: [],
+    skills: [SkillNames.PHP, SkillNames.LARAVEL, SkillNames.MYSQL, SkillNames.ELOQUENT],
   },
   {
     id: 2,
@@ -136,7 +181,7 @@ export const EXPERIENCE: Experience[] = [
       "Sistema de gestión para telecomunicaciones.",
       "Usuarios, servicios, incidencias y facturación automatizada.",
     ],
-    skills: [],
+    skills: [SkillNames.PHP, SkillNames.LARAVEL, SkillNames.MYSQL],
   },
 ];
 
