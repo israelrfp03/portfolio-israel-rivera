@@ -1,188 +1,127 @@
 "use client";
 
-import { Suspense, useEffect, useRef, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, RoundedBox, Html, ContactShadows } from "@react-three/drei";
-import type { Group } from "three";
-import { SKILLS, SkillNames } from "@/data/constants";
+import Spline from "@splinetool/react-spline";
+import type { Application, SplineEvent } from "@splinetool/runtime";
+import { useCallback, useEffect, useRef } from "react";
+import { SkillNames } from "@/data/constants";
 import { pingSkill } from "@/lib/ping-skill";
 
-// Physical keyboard letter each keycap responds to. Kept separate from
-// SkillNames so this component doesn't have to touch constants.ts.
-const KEY_CHARS: Partial<Record<SkillNames, string>> = {
-  [SkillNames.PHP]: "P",
-  [SkillNames.LARAVEL]: "L",
-  [SkillNames.PYTHON]: "Y",
-  [SkillNames.MYSQL]: "M",
-  [SkillNames.JS]: "J",
-  [SkillNames.REACT]: "R",
-  [SkillNames.HTML]: "H",
-  [SkillNames.CSS]: "C",
-  [SkillNames.GITHUB]: "G",
-  [SkillNames.ELOQUENT]: "E",
-  [SkillNames.APIS_REST]: "A",
-  [SkillNames.VSCODE]: "V",
+// Physical keyboard letter each keycap responds to.
+const KEY_CHARS: Record<string, SkillNames> = {
+  p: SkillNames.PHP,
+  l: SkillNames.LARAVEL,
+  y: SkillNames.PYTHON,
+  m: SkillNames.MYSQL,
+  e: SkillNames.ELOQUENT,
+  a: SkillNames.APIS_REST,
+  j: SkillNames.JS,
+  h: SkillNames.HTML,
+  c: SkillNames.CSS,
+  r: SkillNames.REACT,
+  g: SkillNames.GITHUB,
+  i: SkillNames.GIT,
+  n: SkillNames.NPM,
+  s: SkillNames.VSCODE,
+  t: SkillNames.VITE,
 };
 
-const KEYS = Object.entries(KEY_CHARS).map(([name, keyChar]) => {
-  const skill = SKILLS[name as SkillNames];
-  return {
-    name: name as SkillNames,
-    keyChar: keyChar as string,
-    label: skill.label,
-    color: skill.color,
-    icon: skill.icon,
-  };
-});
-
-const COLS = 4;
-const ROWS = 3;
-const GAP_X = 1.9;
-const GAP_Z = 7;
-// Small per-row horizontal cascade, like a real keyboard's row stagger —
-// also keeps labels from adjacent rows drifting into the same screen area.
-const ROW_STAGGER = [-0.4, 0, 0.4];
-
-type KeycapProps = {
-  label: string;
-  color: string;
-  icon: string;
-  x: number;
-  z: number;
-  active: boolean;
-  onDown: () => void;
-  onUp: () => void;
+// Object names as set inside the Spline scene — they don't all match the
+// SkillNames enum values, so this bridges the two.
+const SPLINE_OBJECT_BY_SKILL: Partial<Record<SkillNames, string>> = {
+  [SkillNames.PHP]: "php",
+  [SkillNames.LARAVEL]: "laravel",
+  [SkillNames.PYTHON]: "python",
+  [SkillNames.MYSQL]: "mysql",
+  [SkillNames.ELOQUENT]: "eloquent",
+  [SkillNames.APIS_REST]: "api",
+  [SkillNames.JS]: "javascript",
+  [SkillNames.HTML]: "html5",
+  [SkillNames.CSS]: "css3",
+  [SkillNames.REACT]: "react",
+  [SkillNames.GITHUB]: "github",
+  [SkillNames.GIT]: "git",
+  [SkillNames.NPM]: "npm",
+  [SkillNames.VSCODE]: "vscode",
+  [SkillNames.VITE]: "vite",
 };
 
-function Keycap({ label, color, icon, x, z, active, onDown, onUp }: KeycapProps) {
-  const pressRef = useRef<Group>(null);
-  const [hovered, setHovered] = useState(false);
-
-  useFrame(() => {
-    if (!pressRef.current) return;
-    const targetY = active ? -0.1 : hovered ? 0.035 : 0;
-    pressRef.current.position.y += (targetY - pressRef.current.position.y) * 0.35;
-  });
-
-  return (
-    <group position={[x, 0, z]}>
-      <group
-        ref={pressRef}
-        onPointerDown={(e) => {
-          e.stopPropagation();
-          onDown();
-        }}
-        onPointerUp={(e) => {
-          e.stopPropagation();
-          onUp();
-        }}
-        onPointerOver={() => setHovered(true)}
-        onPointerOut={() => {
-          setHovered(false);
-          onUp();
-        }}
-      >
-        <RoundedBox args={[0.82, 0.3, 0.82]} radius={0.09} smoothness={4} castShadow receiveShadow>
-          <meshStandardMaterial color={color} roughness={0.35} metalness={0.15} />
-        </RoundedBox>
-        <Html center position={[0, 0.18, 0]} occlude style={{ pointerEvents: "none" }}>
-          <div className="keycap-content">
-            <img src={icon} alt="" className="keycap-icon" />
-            <span className="keycap-label">{label}</span>
-          </div>
-        </Html>
-      </group>
-    </group>
-  );
-}
-
-// Fixed angle, no per-frame rotation math — a live-updating angle kept
-// drifting into bad-looking (near edge-on) views depending on cursor
-// position/timing. Static framing is the reliable choice here.
-function Rig({ children }: { children: React.ReactNode }) {
-  return <group rotation={[-0.62, 0, 0]}>{children}</group>;
-}
+const SKILL_BY_SPLINE_OBJECT: Record<string, SkillNames> = Object.fromEntries(
+  Object.entries(SPLINE_OBJECT_BY_SKILL).map(([skill, name]) => [name as string, skill as SkillNames])
+);
 
 export default function TechStackScene() {
-  const [activeKey, setActiveKey] = useState<string | null>(null);
-  const [narrow, setNarrow] = useState(false);
+  const appRef = useRef<Application | null>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const update = () => setNarrow(window.innerWidth < 768);
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
+  const pressKey = useCallback((skill: SkillNames) => {
+    const app = appRef.current;
+    const objectName = SPLINE_OBJECT_BY_SKILL[skill];
+    if (!app || !objectName) return;
+    const obj = app.findObjectByName(objectName);
+    if (!obj) return;
+    const baseY = obj.position.y;
+    obj.position.y = baseY - 6;
+    window.setTimeout(() => {
+      obj.position.y = baseY;
+    }, 140);
+    pingSkill(skill);
   }, []);
-
-  const positions = KEYS.map((k, i) => {
-    const col = i % COLS;
-    const row = Math.floor(i / COLS);
-    return {
-      ...k,
-      x: (col - (COLS - 1) / 2) * GAP_X + ROW_STAGGER[row],
-      z: (row - (ROWS - 1) / 2) * GAP_Z,
-    };
-  });
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.repeat) return;
-      const k = KEYS.find((item) => item.keyChar.toLowerCase() === e.key.toLowerCase());
-      if (!k) return;
-      setActiveKey(k.keyChar);
-      pingSkill(k.name);
-    };
-    const up = (e: KeyboardEvent) => {
-      const k = KEYS.find((item) => item.keyChar.toLowerCase() === e.key.toLowerCase());
-      if (!k) return;
-      setActiveKey((cur) => (cur === k.keyChar ? null : cur));
+      const skill = KEY_CHARS[e.key.toLowerCase()];
+      if (!skill) return;
+      pressKey(skill);
     };
     window.addEventListener("keydown", down);
-    window.addEventListener("keyup", up);
+    return () => window.removeEventListener("keydown", down);
+  }, [pressKey]);
+
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+    const MAX_TILT = 6;
+    const onMove = (e: MouseEvent) => {
+      const rect = wrapper.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width - 0.5;
+      const py = (e.clientY - rect.top) / rect.height - 0.5;
+      wrapper.style.transform = `perspective(1200px) rotateX(${(-py * MAX_TILT).toFixed(2)}deg) rotateY(${(px * MAX_TILT).toFixed(2)}deg)`;
+    };
+    const onLeave = () => {
+      wrapper.style.transform = "perspective(1200px) rotateX(0deg) rotateY(0deg)";
+    };
+    wrapper.addEventListener("mousemove", onMove);
+    wrapper.addEventListener("mouseleave", onLeave);
     return () => {
-      window.removeEventListener("keydown", down);
-      window.removeEventListener("keyup", up);
+      wrapper.removeEventListener("mousemove", onMove);
+      wrapper.removeEventListener("mouseleave", onLeave);
     };
   }, []);
 
-  return (
-    <Canvas
-      shadows
-      dpr={[1, 1.5]}
-      orthographic
-      camera={{ position: [-0.05, 4, 7.1], zoom: narrow ? 52 : 70, near: 0.1, far: 30 }}
-      gl={{ alpha: true, antialias: true }}
-    >
-      <ambientLight intensity={0.7} />
-      <directionalLight position={[4, 6, 3]} intensity={1.1} castShadow shadow-mapSize={[1024, 1024]} />
-      <directionalLight position={[-4, 2, -3]} intensity={0.35} />
+  const handleLoad = useCallback((app: Application) => {
+    appRef.current = app;
+    app.setZoom(1.15);
+    const onInteract = (e: SplineEvent) => {
+      const skill = SKILL_BY_SPLINE_OBJECT[e.target.name];
+      if (skill) pressKey(skill);
+    };
+    app.addEventListener("mouseDown", onInteract);
+    // No mouseLeave event exists in Spline's runtime, so hover just plays
+    // the same brief press bounce as a click rather than a true hold state.
+    app.addEventListener("mouseHover", onInteract);
+  }, [pressKey]);
 
-      <Suspense fallback={null}>
-        {/* rotationIntensity must stay 0 — any rotation drift swings the whole
-            keyboard toward the near edge-on angle the static Rig below was
-            written to avoid (see Rig's comment). Only vertical bob is safe. */}
-        <Float speed={1.2} rotationIntensity={0} floatIntensity={0.35} floatingRange={[-0.05, 0.12]}>
-          <Rig>
-            {positions.map((k) => (
-              <Keycap
-                key={k.keyChar}
-                label={k.label}
-                color={k.color}
-                icon={k.icon}
-                x={k.x}
-                z={k.z}
-                active={activeKey === k.keyChar}
-                onDown={() => {
-                  setActiveKey(k.keyChar);
-                  pingSkill(k.name);
-                }}
-                onUp={() => setActiveKey((cur) => (cur === k.keyChar ? null : cur))}
-              />
-            ))}
-          </Rig>
-        </Float>
-        <ContactShadows position={[0, -0.25, 0]} opacity={0.45} scale={11} blur={2.4} far={2} />
-      </Suspense>
-    </Canvas>
+  return (
+    <div
+      ref={wrapperRef}
+      style={{ width: "100%", height: "100%", transition: "transform 0.3s ease-out", pointerEvents: "auto" }}
+    >
+      <Spline
+        scene="https://prod.spline.design/a9akO3RRAsfz73Au/scene.splinecode"
+        onLoad={handleLoad}
+        style={{ width: "100%", height: "100%" }}
+      />
+    </div>
   );
 }
