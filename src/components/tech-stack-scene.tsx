@@ -52,6 +52,10 @@ const SKILL_BY_SPLINE_OBJECT: Record<string, SkillNames> = Object.fromEntries(
 export default function TechStackScene() {
   const appRef = useRef<Application | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
+  // Each keycap's resting Y, captured once so repeated presses (or hover
+  // re-firing) always animate from the true rest position instead of
+  // compounding off whatever the position happens to be mid-animation.
+  const restYRef = useRef<Map<string, number>>(new Map());
 
   const pressKey = useCallback((skill: SkillNames) => {
     const app = appRef.current;
@@ -59,12 +63,21 @@ export default function TechStackScene() {
     if (!app || !objectName) return;
     const obj = app.findObjectByName(objectName);
     if (!obj) return;
-    const baseY = obj.position.y;
-    obj.position.y = baseY - 6;
+    if (!restYRef.current.has(objectName)) restYRef.current.set(objectName, obj.position.y);
+    const restY = restYRef.current.get(objectName)!;
+    obj.position.y = restY - 6;
     window.setTimeout(() => {
-      obj.position.y = baseY;
+      obj.position.y = restY;
     }, 140);
     pingSkill(skill);
+  }, []);
+
+  // Hover only highlights the matching card below — no position animation,
+  // since Spline's mouseHover keeps re-firing the whole time the cursor sits
+  // over the keycap (not just once on entry), which made a position-based
+  // animation compound and sink the key further with every re-fire.
+  const hoverKey = useCallback((skill: SkillNames) => {
+    pingSkill(skill, { scroll: false });
   }, []);
 
   useEffect(() => {
@@ -81,7 +94,7 @@ export default function TechStackScene() {
   useEffect(() => {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
-    const MAX_TILT = 6;
+    const MAX_TILT = 16;
     const onMove = (e: MouseEvent) => {
       const rect = wrapper.getBoundingClientRect();
       const px = (e.clientX - rect.left) / rect.width - 0.5;
@@ -102,15 +115,15 @@ export default function TechStackScene() {
   const handleLoad = useCallback((app: Application) => {
     appRef.current = app;
     app.setZoom(1.15);
-    const onInteract = (e: SplineEvent) => {
+    app.addEventListener("mouseDown", (e: SplineEvent) => {
       const skill = SKILL_BY_SPLINE_OBJECT[e.target.name];
       if (skill) pressKey(skill);
-    };
-    app.addEventListener("mouseDown", onInteract);
-    // No mouseLeave event exists in Spline's runtime, so hover just plays
-    // the same brief press bounce as a click rather than a true hold state.
-    app.addEventListener("mouseHover", onInteract);
-  }, [pressKey]);
+    });
+    app.addEventListener("mouseHover", (e: SplineEvent) => {
+      const skill = SKILL_BY_SPLINE_OBJECT[e.target.name];
+      if (skill) hoverKey(skill);
+    });
+  }, [pressKey, hoverKey]);
 
   return (
     <div
