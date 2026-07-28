@@ -5,6 +5,7 @@ import type { Application, SplineEvent } from "@splinetool/runtime";
 import { useCallback, useEffect, useRef } from "react";
 import { SkillNames } from "@/data/constants";
 import { pingSkill } from "@/lib/ping-skill";
+import { useSounds } from "@/components/realtime/hooks/use-sounds";
 
 // Physical keyboard letter each keycap responds to.
 const KEY_CHARS: Record<string, SkillNames> = {
@@ -56,6 +57,7 @@ export default function TechStackScene() {
   // re-firing) always animate from the true rest position instead of
   // compounding off whatever the position happens to be mid-animation.
   const restYRef = useRef<Map<string, number>>(new Map());
+  const { playPressSound, playReleaseSound } = useSounds();
 
   const pressKey = useCallback((skill: SkillNames) => {
     const app = appRef.current;
@@ -66,11 +68,13 @@ export default function TechStackScene() {
     if (!restYRef.current.has(objectName)) restYRef.current.set(objectName, obj.position.y);
     const restY = restYRef.current.get(objectName)!;
     obj.position.y = restY - 6;
+    playPressSound();
     window.setTimeout(() => {
       obj.position.y = restY;
+      playReleaseSound();
     }, 140);
     pingSkill(skill);
-  }, []);
+  }, [playPressSound, playReleaseSound]);
 
   // Hover only highlights the matching card below — no position animation,
   // since Spline's mouseHover keeps re-firing the whole time the cursor sits
