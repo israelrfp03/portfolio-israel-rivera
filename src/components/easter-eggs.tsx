@@ -20,10 +20,10 @@ const EasterEggs = () => {
     if (typeof console !== "undefined") {
       console.clear();
       console.log(
-        "%cWhoa, look at you! 🕵️‍♂️\n" +
-          "You seem to have discovered the secret console! 🔍\n" +
-          "Want to see some magic? ✨\n" +
-          "Just type %cmy first name%c and hit enter! 🎩🐇",
+        "%c¡Vaya, mira quién anda por aquí! 🕵️‍♂️\n" +
+          "¡Parece que has descubierto la consola secreta! 🔍\n" +
+          "¿Quieres ver algo de magia? ✨\n" +
+          "Escribe %cmi nombre de pila%c y pulsa intro! 🎩🐇",
         //   "Just press the %c'n'%c key and watch the magic happen! 🪄",
         "color: #FFD700; font-size: 16px; font-weight: bold; background-color: black; padding: 10px; border-radius: 10px; margin-top:20px",
         "color: #00FF00; font-size: 16px; font-weight: bold; background-color: black; padding: 10px; border-radius: 10px; margin-top:20px",
@@ -36,17 +36,17 @@ const EasterEggs = () => {
         Object.defineProperty(window, name, {
           get() {
             console.log(
-              "%c✨ Abra Kadabra! ✨\n\n" +
-                "You just summoned the magic of Israel! 🧙‍♂️\n" +
-                "What??? youre not impressed? Fine, but remember: With great power comes great responsibility! 💻⚡",
+              "%c✨ ¡Abracadabra! ✨\n\n" +
+                "¡Acabas de invocar la magia de Israel! 🧙‍♂️\n" +
+                "¿Qué? ¿No estás impresionado? Vale, pero recuerda: ¡un gran poder conlleva una gran responsabilidad! 💻⚡",
 
               "color: #FF4500; font-size: 18px; font-weight: bold; background-color: black; padding: 10px; border-radius: 10px; margin-top:10px"
             );
 
             const timer = setTimeout(() => {
               console.log(
-                "%cPssttt! 🤫\n\n" +
-                  "Do you like cats?? 😺 If yes, then press 'n' on viewport and see what happens! 🐱✨",
+                "%c¡Pssstt! 🤫\n\n" +
+                  "¿Te gustan los gatos? 😺 Si es que sí, pulsa la tecla 'n' en la página y mira qué pasa! 🐱✨",
                 "color: #FF69B4; font-size: 16px; font-weight: bold; background-color: black; padding: 10px; border-radius: 10px;"
               );
               clearTimeout(timer);

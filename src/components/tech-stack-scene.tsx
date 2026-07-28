@@ -83,6 +83,8 @@ export default function TechStackScene() {
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.repeat) return;
+      const target = e.target as HTMLElement | null;
+      if (target?.closest("input, textarea, select, [contenteditable='true']")) return;
       const skill = KEY_CHARS[e.key.toLowerCase()];
       if (!skill) return;
       pressKey(skill);

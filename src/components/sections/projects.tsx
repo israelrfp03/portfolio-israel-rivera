@@ -40,11 +40,11 @@ const ProjectCard = ({ project }: { project: Project }) => {
             style={{ aspectRatio: "3/2" }}
           >
             {/* `src` can be any aspect ratio (tall pages pan, normal ones fit);
-                the wallpaper is an optional /assets/backgrounds/<id>.jpg. */}
+                the wallpaper is an optional /assets/backgrounds/<id>.svg. */}
             <ScrollingPreview
               src={project.src}
               alt={project.title}
-              bg={`/assets/backgrounds/${project.id}.jpg`}
+              bg={`/assets/backgrounds/${project.id}.svg`}
             />
             <div className="absolute w-full h-24 bottom-0 left-0 bg-gradient-to-t from-background via-background/80 to-transparent pointer-events-none z-10">
               <div className="flex flex-col h-full items-start justify-end p-4">
