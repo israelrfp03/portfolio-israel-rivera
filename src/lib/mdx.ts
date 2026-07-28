@@ -12,6 +12,9 @@ type Metadata = {
 };
 
 function getMDXFiles(dir: string) {
+  // Empty directories aren't tracked by git, so `src/content/blogs` (no
+  // posts written yet) doesn't exist at all after a fresh clone/deploy.
+  if (!fs.existsSync(dir)) return [];
   return fs.readdirSync(dir).filter((file) => path.extname(file) === ".mdx");
 }
 
