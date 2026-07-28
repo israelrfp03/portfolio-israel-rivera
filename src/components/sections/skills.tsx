@@ -18,7 +18,7 @@ const SkillsSection = () => {
         desc="Con lo que trabajo — pulsa una tecla en el teclado de arriba o pasa el ratón aquí"
         className="static mb-14"
       />
-      <ul className="mx-auto grid w-full max-w-5xl grid-cols-2 gap-3 px-4 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5">
+      <ul className="mx-auto grid w-full max-w-5xl grid-cols-3 gap-3 px-4 sm:gap-4 md:grid-cols-4 lg:grid-cols-5">
         {Object.values(SKILLS).map((skill) => (
           <li
             key={skill.name}

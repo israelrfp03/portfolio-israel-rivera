@@ -118,9 +118,35 @@ export default function TechStackScene() {
     };
   }, []);
 
+  // Zoom is a fixed world-units-per-pixel scale, not a "fit to container"
+  // setting — tuned once at the desktop half-column width (~960px), it
+  // overflows any narrower container (tablets, mobile) instead of shrinking
+  // to fit. Recompute it proportionally to the container's actual width,
+  // both once the scene loads and whenever the container resizes (the
+  // ResizeObserver's own initial callback typically fires before Spline's
+  // async scene has loaded, so relying on it alone would miss the very
+  // first sizing on page load).
+  const lastWidthRef = useRef<number | null>(null);
+  const BASE_ZOOM = 1.15;
+  const BASE_WIDTH = 960;
+
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+    const observer = new ResizeObserver((entries) => {
+      const width = entries[0]?.contentRect.width;
+      if (!width) return;
+      lastWidthRef.current = width;
+      appRef.current?.setZoom((BASE_ZOOM * width) / BASE_WIDTH);
+    });
+    observer.observe(wrapper);
+    return () => observer.disconnect();
+  }, []);
+
   const handleLoad = useCallback((app: Application) => {
     appRef.current = app;
-    app.setZoom(1.15);
+    const width = lastWidthRef.current ?? wrapperRef.current?.getBoundingClientRect().width;
+    if (width) app.setZoom((BASE_ZOOM * width) / BASE_WIDTH);
     app.addEventListener("mouseDown", (e: SplineEvent) => {
       const skill = SKILL_BY_SPLINE_OBJECT[e.target.name];
       if (skill) pressKey(skill);
