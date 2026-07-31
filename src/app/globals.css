@@ -147,9 +147,10 @@ body > canvas {
    element that shrink-wraps to its widest child. A nowrap node (e.g. a quoted
    reply with `truncate`) makes that table grow past the viewport, so every
    `min-w-0`/`truncate`/`break-words` below it measures against the inflated
-   width and never wraps. Forcing the wrapper to `block` pins the message
-   column to the viewport width so truncation/wrapping can take effect. */
-.chat-scroll-area [data-radix-scroll-area-viewport] > div {
+   width and never wraps. Forcing the wrapper to `block` pins the column to
+   the viewport width so truncation/wrapping can take effect. Applies to every
+   ScrollArea (not just chat) — the project modals hit this same overflow. */
+[data-radix-scroll-area-viewport] > div {
   display: block !important;
 }
 

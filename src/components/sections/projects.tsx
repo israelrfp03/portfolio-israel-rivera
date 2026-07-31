@@ -4,6 +4,7 @@ import {
   ResponsiveDialog,
   ResponsiveDialogContent,
   ResponsiveDialogTrigger,
+  ResponsiveDialogTitle,
 } from "../ui/responsive-dialog";
 import { FloatingDock } from "../ui/floating-dock";
 import { ScrollArea } from "../ui/scroll-area";
@@ -61,12 +62,12 @@ const ProjectCard = ({ project }: { project: Project }) => {
 
         <ResponsiveDialogContent className="md:max-w-4xl md:h-[85vh] md:!flex md:flex-col md:overflow-hidden md:p-0 md:gap-0">
           {/* Sticky header */}
-          <div className="shrink-0 border-b border-border bg-background/80 backdrop-blur-sm px-8 py-5">
-            <div className="flex items-center justify-between gap-4">
+          <div className="shrink-0 border-b border-border bg-background/80 backdrop-blur-sm px-4 md:px-8 py-5">
+            <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
               <div className="flex items-center gap-4 min-w-0">
-                <h4 className="font-display text-xl md:text-2xl font-bold text-foreground tracking-tight truncate">
+                <ResponsiveDialogTitle className="font-display text-xl md:text-2xl font-bold text-foreground tracking-tight truncate">
                   {project.title}
-                </h4>
+                </ResponsiveDialogTitle>
                 <span className="shrink-0 text-[11px] uppercase tracking-widest text-muted-foreground border border-border rounded-full px-3 py-0.5">
                   {project.category}
                 </span>
@@ -95,7 +96,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
 
           {/* Scrollable content */}
           <ScrollArea className="flex-1" type="always" data-lenis-prevent>
-            <div className="px-8 py-8">
+            <div className="px-4 py-6 md:px-8 md:py-8">
               {/* Tech stack */}
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
