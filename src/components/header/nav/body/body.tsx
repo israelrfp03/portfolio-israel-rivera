@@ -6,7 +6,6 @@ import { Link as LinkType } from "@/types";
 import { cn } from "@/lib/utils";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import FunnyThemeToggle from "@/components/theme/funny-theme-toggle";
 
 interface SelectedLink {
   isActive: boolean;
@@ -86,7 +85,6 @@ export default function Body({
           </Link>
         );
       })}
-      <FunnyThemeToggle className="w-6 h-6 mr-6 mt-4 flex md:hidden" />
     </div>
   );
 }
