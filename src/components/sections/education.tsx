@@ -18,7 +18,7 @@ const EducationSection = () => {
           id="education"
           title="Estudios"
           desc="Mi formación académica."
-          className="mb-12 md:mb-20 mt-0"
+          className="static mb-12 md:mb-20 mt-0"
         />
 
         <div className="flex flex-col gap-6">
@@ -71,7 +71,7 @@ const EducationCard = ({
                 </div>
               </div>
             </div>
-            <div className="flex shrink-0 flex-col items-end gap-2">
+            <div className="flex shrink-0 flex-row items-center gap-2">
               <Badge variant="secondary" className="w-fit whitespace-nowrap font-mono text-xs font-normal">
                 {education.startDate} - {education.endDate}
               </Badge>

@@ -63,7 +63,7 @@ const projects: Project[] = [
   {
     id: "elcampitoo",
     category: "Apartamentos rurales",
-    title: "El Campitoo",
+    title: "El Campito",
     src: "/assets/projects-screenshots/elcampitoo/landing.jpg",
     screenshots: [],
     skills: {
