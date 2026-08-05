@@ -49,7 +49,10 @@ const Index: React.FC<IndexProps> = ({ setIsActive }) => {
           isActive={selectedLink.isActive}
         />
       </div>
-      {/* Subtle reduced-motion control, tucked into the bottom-right of the menu.
+      {/* Subtle reduced-motion control. In normal flow (not absolutely
+          positioned) so it never overlaps the last nav link — on mobile the
+          links stack tall enough that an absolutely-positioned "bottom-0"
+          landed right on top of "CONTACTO" instead of below it.
           Stop propagation so toggling motion doesn't also close the menu. */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -57,7 +60,7 @@ const Index: React.FC<IndexProps> = ({ setIsActive }) => {
         exit={{ opacity: 0 }}
         transition={{ delay: 0.5, duration: 0.4 }}
         onClick={(e) => e.stopPropagation()}
-        className="absolute bottom-0 right-0"
+        className="flex justify-end mt-6"
       >
         <MotionToggle />
       </motion.div>

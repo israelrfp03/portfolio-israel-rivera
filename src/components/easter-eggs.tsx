@@ -36,9 +36,9 @@ const EasterEggs = () => {
         Object.defineProperty(window, name, {
           get() {
             console.log(
-              "%c✨ ¡Abracadabra! ✨\n\n" +
-                "¡Acabas de invocar la magia de Israel! 🧙‍♂️\n" +
-                "¿Qué? ¿No estás impresionado? Vale, pero recuerda: ¡un gran poder conlleva una gran responsabilidad! 💻⚡",
+              "%c🎉 ¡Me pillaste! 🎉\n\n" +
+                "Soy Israel — desarrollador junior, y sí, a mí también me gusta fisgonear el código de otras webs. 🕵️\n" +
+                "Gracias por pasarte por aquí, ¡espero que te guste lo que ves! 🚀",
 
               "color: #FF4500; font-size: 18px; font-weight: bold; background-color: black; padding: 10px; border-radius: 10px; margin-top:10px"
             );

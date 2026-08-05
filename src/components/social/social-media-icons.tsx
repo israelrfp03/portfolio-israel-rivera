@@ -12,17 +12,19 @@ const BUTTONS = [
   {
     name: "Github",
     href: config.social.github,
-    icon: <SiGithub size={"24"} color={"#fff"} />,
+    // No hardcoded color — inherits the theme's foreground color so it
+    // stays visible in both light and dark mode instead of only dark.
+    icon: <SiGithub size={"24"} />,
   },
   {
     name: "LinkedIn",
     href: config.social.linkedin,
-    icon: <SiLinkedin size={"24"} color={"#fff"} />,
+    icon: <SiLinkedin size={"24"} />,
   },
   {
     name: "Email",
     href: `mailto:${config.email}`,
-    icon: <Mail size={"24"} color={"#fff"} />,
+    icon: <Mail size={"24"} />,
   },
 ];
 

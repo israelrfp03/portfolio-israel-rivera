@@ -1,5 +1,11 @@
 .header {
-  z-index: 9;
+  // z-index is set via Tailwind's z-[10000] class in header.tsx, not here —
+  // this used to say `z-index: 9`, which (this SCSS module rules load after
+  // Tailwind's utility sheet) silently beat the Tailwind class and left the
+  // header, and its full-screen mobile nav overlay, sitting below several
+  // other elements on the page (project card overlays at z-10, toasts at
+  // z-100/101, the contact card at z-9999) — the overlay looked like it
+  // wasn't covering content when really other content was stacked above it.
   // background-color: hsl(var(--background) / .8);
   position: fixed;
   width: 100%;

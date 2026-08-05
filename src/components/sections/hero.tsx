@@ -84,21 +84,14 @@ const HeroSection = () => {
               </div>
               <div className="mt-8 flex flex-col gap-3 w-fit">
                 <div className="md:self-start flex gap-3">
-                  <Tooltip delayDuration={300}>
-                    <TooltipTrigger asChild>
-                      <Link href={"#contact"}>
-                        <Button
-                          variant={"outline"}
-                          className="block w-full overflow-hidden"
-                        >
-                          Contrátame
-                        </Button>
-                      </Link>
-                    </TooltipTrigger>
-                    <TooltipContent side="bottom">
-                      <p>porfa 🥹 🙏</p>
-                    </TooltipContent>
-                  </Tooltip>
+                  <Link href={"#contact"}>
+                    <Button
+                      variant={"outline"}
+                      className="block w-full overflow-hidden"
+                    >
+                      Contrátame
+                    </Button>
+                  </Link>
                   <div className="flex items-center h-full gap-2">
                     <Link href={`mailto:${config.email}`}>
                       <Button variant={"outline"}>

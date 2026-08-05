@@ -6,6 +6,11 @@ import { SectionHeader } from "./section-header";
 import { SKILLS } from "@/data/constants";
 import { cn } from "@/lib/utils";
 
+// These two icons are solid black with no colored/light variant on devicon,
+// so they're nearly invisible on the dark theme's dark card background —
+// invert them in dark mode so they render white instead.
+const DARK_MODE_INVERT = new Set(["github", "apis-rest"]);
+
 const SkillsSection = () => {
   return (
     <SectionWrapper
@@ -45,7 +50,10 @@ const SkillsSection = () => {
               width={44}
               height={44}
               loading="lazy"
-              className="relative size-9 object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-110 md:size-11"
+              className={cn(
+                "relative size-9 object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-110 md:size-11",
+                DARK_MODE_INVERT.has(skill.name) && "dark:invert"
+              )}
             />
             <span className="relative text-center text-xs font-medium text-foreground/80 transition-colors group-hover:text-foreground md:text-sm">
               {skill.label}
