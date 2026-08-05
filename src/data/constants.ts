@@ -185,6 +185,31 @@ export const EXPERIENCE: Experience[] = [
   },
 ];
 
+export type Education = {
+  id: number;
+  startDate: string;
+  endDate: string;
+  title: string;
+  institution: string;
+};
+
+export const EDUCATION: Education[] = [
+  {
+    id: 1,
+    startDate: "2023",
+    endDate: "2025",
+    title: "Técnico Superior en Desarrollo de Aplicaciones Web (DAW)",
+    institution: "IES Suárez de Figueroa",
+  },
+  {
+    id: 2,
+    startDate: "2025",
+    endDate: "2026",
+    title: "Curso de Especialización en Python",
+    institution: "IES Suárez de Figueroa",
+  },
+];
+
 export const themeDisclaimers = {
   light: ["Modo claro activado.", "Cambiando a modo claro..."],
   dark: ["Modo oscuro activado.", "Cambiando a modo oscuro..."],

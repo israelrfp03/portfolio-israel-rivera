@@ -14,7 +14,10 @@
   backdrop-filter: blur(12px);
 
   .background {
-    background-color: hsl(240 10% 3.9%); // constant color instead of using a css variable
+    // Theme-aware background (was a hardcoded dark color) — nav link text
+    // uses theme-aware colors too, and dark text on a hardcoded-dark
+    // overlay was nearly invisible in light mode.
+    background-color: hsl(var(--background));
     opacity: 0.98;
     width: 100%;
     position: fixed;
