@@ -71,9 +71,21 @@ const EducationCard = ({
                 </div>
               </div>
             </div>
-            <Badge variant="secondary" className="w-fit shrink-0 whitespace-nowrap font-mono text-xs font-normal">
-              {education.startDate} - {education.endDate}
-            </Badge>
+            <div className="flex shrink-0 flex-col items-end gap-2">
+              <Badge variant="secondary" className="w-fit whitespace-nowrap font-mono text-xs font-normal">
+                {education.startDate} - {education.endDate}
+              </Badge>
+              {/* The logo file has its own white background baked in, so it
+                  sits in a matching white badge instead of fighting it —
+                  same fixed size on every card. */}
+              <div className="flex h-14 w-[130px] items-center justify-center rounded-lg bg-white p-2">
+                <img
+                  src="/assets/logos-institutions/ies-suarez-de-figueroa.png"
+                  alt="IES Suárez de Figueroa"
+                  className="max-h-full max-w-full object-contain"
+                />
+              </div>
+            </div>
           </div>
         </CardHeader>
       </Card>
