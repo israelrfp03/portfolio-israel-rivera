@@ -115,9 +115,6 @@ const ContactForm = () => {
           onChange={(e) => { setMessage(e.target.value); setErrors((p) => ({ ...p, message: undefined })); }}
         />
         {errors.message && <p className="text-sm text-red-500">{errors.message}</p>}
-        <p className="text-sm text-muted-foreground">
-          Nunca compartiré tus datos con nadie. Lo prometo.
-        </p>
       </div>
       <Button
         disabled={loading}

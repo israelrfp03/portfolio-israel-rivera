@@ -18,6 +18,7 @@ const config = {
   ],
   author: "Israel Rivera",
   email: "israelrfp@gmail.com",
+  phone: "+34 646 53 61 48",
   site: "https://israelrfp03.github.io",
 
   // for github stars button

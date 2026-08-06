@@ -7,8 +7,9 @@ import { SiGithub, SiLinkedin } from "react-icons/si";
 import { Mail } from "lucide-react";
 import { config } from "@/data/config";
 import Link from "next/link";
+import { useToast } from "../ui/use-toast";
 
-const BUTTONS = [
+const LINK_BUTTONS = [
   {
     name: "Github",
     href: config.social.github,
@@ -21,24 +22,32 @@ const BUTTONS = [
     href: config.social.linkedin,
     icon: <SiLinkedin size={"24"} />,
   },
-  {
-    name: "Email",
-    href: `mailto:${config.email}`,
-    icon: <Mail size={"24"} />,
-  },
 ];
 
 const SocialMediaButtons = () => {
   const ref = useRef<HTMLDivElement>(null);
   const show = useInView(ref, { once: true });
+  const { toast } = useToast();
   return (
-    <div ref={ref} className="z-10">
-      {show &&
-        BUTTONS.map((button) => (
-          <Link href={button.href} key={button.name} target="_blank">
-            <Button variant={"ghost"}>{button.icon}</Button>
-          </Link>
-        ))}
+    <div ref={ref} className="z-10 flex">
+      {show && (
+        <>
+          {LINK_BUTTONS.map((button) => (
+            <Link href={button.href} key={button.name} target="_blank">
+              <Button variant={"ghost"}>{button.icon}</Button>
+            </Link>
+          ))}
+          <Button
+            variant={"ghost"}
+            onClick={() => {
+              navigator.clipboard.writeText(config.email);
+              toast({ description: "Email copiado al portapapeles." });
+            }}
+          >
+            <Mail size={24} />
+          </Button>
+        </>
+      )}
     </div>
   );
 };

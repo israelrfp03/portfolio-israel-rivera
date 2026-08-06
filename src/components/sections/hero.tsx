@@ -13,6 +13,7 @@ import { BlurIn, BoxReveal } from "../reveal-animations";
 import ScrollDownIcon from "../scroll-down-icon";
 import { SiGithub, SiLinkedin, SiX } from "react-icons/si";
 import { config } from "@/data/config";
+import { useLenis } from "@/lib/lenis";
 
 import SectionWrapper from "../ui/section-wrapper";
 
@@ -20,6 +21,11 @@ const TechStackScene = lazy(() => import("../tech-stack-scene"));
 
 const HeroSection = () => {
   const { isLoading } = usePreloader();
+  const lenis = useLenis();
+  const scrollToContact = (e: React.MouseEvent) => {
+    e.preventDefault();
+    lenis?.scrollTo("#contact");
+  };
 
   return (
     <SectionWrapper id="hero" className={cn("relative w-full h-screen")}>
@@ -84,7 +90,7 @@ const HeroSection = () => {
               </div>
               <div className="mt-8 flex flex-col gap-3 w-fit">
                 <div className="md:self-start flex gap-3">
-                  <Link href={"#contact"}>
+                  <Link href={"#contact"} onClick={scrollToContact}>
                     <Button
                       variant={"outline"}
                       className="block w-full overflow-hidden"
@@ -93,7 +99,7 @@ const HeroSection = () => {
                     </Button>
                   </Link>
                   <div className="flex items-center h-full gap-2">
-                    <Link href={`mailto:${config.email}`}>
+                    <Link href={"#contact"} onClick={scrollToContact}>
                       <Button variant={"outline"}>
                         <Mail size={24} />
                       </Button>

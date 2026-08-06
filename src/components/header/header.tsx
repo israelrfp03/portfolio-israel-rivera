@@ -12,6 +12,7 @@ import { Button } from "../ui/button";
 import { config } from "@/data/config";
 import OnlineUsers from "../realtime/online-users";
 import { GitHubStarsButton } from "../ui/shadcn-io/github-stars-button";
+import { useLenis } from "@/lib/lenis";
 
 interface HeaderProps {
   loader?: boolean;
@@ -20,6 +21,7 @@ interface HeaderProps {
 const Header = ({ loader }: HeaderProps) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const isHome = usePathname() === "/";
+  const lenis = useLenis();
   return (
     <motion.header
       className={cn(
@@ -50,7 +52,15 @@ const Header = ({ loader }: HeaderProps) => {
       >
       </div> */}
       <div className={cn(styles.bar, "flex items-center justify-between")}>
-        <Link href="/" className="flex items-center justify-center">
+        <Link
+          href="/"
+          className="flex items-center justify-center"
+          onClick={(e) => {
+            if (!isHome) return;
+            e.preventDefault();
+            lenis?.scrollTo(0);
+          }}
+        >
           <Button variant={"link"} className="text-md">
             {config.author}
           </Button>
