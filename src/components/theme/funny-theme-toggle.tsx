@@ -71,7 +71,7 @@ export default function FunnyThemeToggle({
     toast({
       description: description,
       className:
-        "top-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4",
+        "bottom-0 right-0 flex fixed md:max-w-[420px] md:top-16 md:right-4 md:bottom-auto",
     });
     toggleTheme("dark", e);
   };
