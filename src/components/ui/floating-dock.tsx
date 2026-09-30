@@ -114,7 +114,7 @@ const FloatingDockDesktop = ({
     };
   }, [showHint]);
   return (
-    <div className="relative h-fit flex items-center justify-center pointer-events-auto">
+    <div className="relative h-fit max-w-full flex items-center justify-center pointer-events-auto">
       <motion.div
         onMouseMove={(e) => {
           mouseX.set(e.pageX);
@@ -122,8 +122,8 @@ const FloatingDockDesktop = ({
         }}
         onMouseLeave={() => mouseX.set(Infinity)}
         className={cn(
-          "flex gap-2 md:gap-4",
-          "mx-auto h-16 items-end  rounded-2xl bg-white/30 dark:bg-black/50  px-4 pb-3",
+          "flex gap-2 md:gap-4 max-w-full flex-wrap justify-center md:flex-nowrap",
+          "mx-auto h-auto py-3 items-center md:h-16 md:items-end md:py-0 rounded-2xl bg-white/30 dark:bg-black/50 px-4 md:pb-3",
           className
         )}
       >

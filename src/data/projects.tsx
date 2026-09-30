@@ -3,7 +3,27 @@ import { TypographyP } from "@/components/ui/typography";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { ReactNode } from "react";
-import { SiPhp, SiLaravel, SiMysql, SiHtml5, SiCss3 } from "react-icons/si";
+import {
+  SiPhp,
+  SiLaravel,
+  SiMysql,
+  SiHtml5,
+  SiCss3,
+  SiPython,
+  SiDjango,
+  SiPostgresql,
+  SiTailwindcss,
+  SiJavascript,
+  SiChartdotjs,
+  SiPandas,
+  SiSupabase,
+  SiVercel,
+  SiPytest,
+  SiThemoviedatabase,
+  SiGooglegemini,
+  SiAlpinedotjs,
+  SiVite,
+} from "react-icons/si";
 import { Palette } from "lucide-react";
 
 const ProjectsLinks = ({ live }: { live?: string }) => {
@@ -45,6 +65,20 @@ const PROJECT_SKILLS = {
   html: chip("HTML5", <SiHtml5 />),
   css: chip("CSS3", <SiCss3 />),
   design: chip("Diseño web", <Palette />),
+  python: chip("Python", <SiPython />),
+  django: chip("Django", <SiDjango />),
+  postgresql: chip("PostgreSQL", <SiPostgresql />),
+  tailwind: chip("Tailwind CSS", <SiTailwindcss />),
+  javascript: chip("JavaScript", <SiJavascript />),
+  chartjs: chip("Chart.js", <SiChartdotjs />),
+  pandas: chip("pandas", <SiPandas />),
+  supabase: chip("Supabase", <SiSupabase />),
+  vercel: chip("Vercel", <SiVercel />),
+  pytest: chip("pytest", <SiPytest />),
+  tmdb: chip("API de TMDB", <SiThemoviedatabase />),
+  gemini: chip("Gemini", <SiGooglegemini />),
+  alpine: chip("Alpine.js", <SiAlpinedotjs />),
+  vite: chip("Vite", <SiVite />),
 };
 
 export type Project = {
@@ -60,6 +94,55 @@ export type Project = {
 };
 
 const projects: Project[] = [
+  {
+    id: "viewy",
+    category: "Aplicación web",
+    title: "Viewy",
+    src: "/assets/projects-screenshots/viewy/landing.png",
+    screenshots: [],
+    skills: {
+      frontend: [
+        PROJECT_SKILLS.html,
+        PROJECT_SKILLS.tailwind,
+        PROJECT_SKILLS.javascript,
+        PROJECT_SKILLS.chartjs,
+      ],
+      backend: [
+        PROJECT_SKILLS.python,
+        PROJECT_SKILLS.django,
+        PROJECT_SKILLS.postgresql,
+        PROJECT_SKILLS.supabase,
+        PROJECT_SKILLS.pandas,
+        PROJECT_SKILLS.tmdb,
+        PROJECT_SKILLS.gemini,
+        PROJECT_SKILLS.pytest,
+        PROJECT_SKILLS.vercel,
+      ],
+    },
+    live: "https://viewy-tau.vercel.app/",
+    github: "https://github.com/israelrfp03/viewy",
+    get content() {
+      return (
+        <div>
+          <TypographyP className="font-mono text-2xl text-center">
+            Tracker personal de películas, series y anime.
+          </TypographyP>
+          <TypographyP className="font-mono">
+            Cada usuario registra lo que ha visto, está viendo, quiere ver o ha
+            abandonado, con notas, reseñas y progreso de episodios. Busca
+            títulos en TMDB, muestra estadísticas de sus hábitos con gráficas y
+            permite pedir recomendaciones y hacer preguntas sobre su propia
+            biblioteca con IA.
+          </TypographyP>
+          <TypographyP className="font-mono">
+            Desarrollo full-stack (Django, base de datos y despliegue) con
+            asistencia de IA.
+          </TypographyP>
+          <ProjectsLinks live={this.live} />
+        </div>
+      );
+    },
+  },
   {
     id: "elcampitoo",
     category: "Apartamentos rurales",
@@ -135,6 +218,48 @@ const projects: Project[] = [
           <TypographyP className="font-mono">
             Centrado en la creación de páginas para pequeños negocios y
             proyectos personales.
+          </TypographyP>
+          <ProjectsLinks live={this.live} />
+        </div>
+      );
+    },
+  },
+  {
+    id: "arkexchange",
+    category: "Marketplace de videojuegos",
+    title: "ARK Exchange",
+    src: "/assets/projects-screenshots/arkexchange/landing.png",
+    screenshots: [],
+    skills: {
+      frontend: [
+        PROJECT_SKILLS.html,
+        PROJECT_SKILLS.css,
+        PROJECT_SKILLS.javascript,
+        PROJECT_SKILLS.tailwind,
+        PROJECT_SKILLS.alpine,
+        PROJECT_SKILLS.vite,
+      ],
+      backend: [
+        PROJECT_SKILLS.php,
+        PROJECT_SKILLS.laravel,
+        PROJECT_SKILLS.postgresql,
+        PROJECT_SKILLS.supabase,
+        PROJECT_SKILLS.vercel,
+      ],
+    },
+    live: "https://ark-web-plum.vercel.app/",
+    get content() {
+      return (
+        <div>
+          <TypographyP className="font-mono text-2xl text-center">
+            Marketplace para jugadores de ARK.
+          </TypographyP>
+          <TypographyP className="font-mono">
+            Permite buscar y reservar criaturas, recursos y equipamiento.
+            Centraliza el catálogo, la disponibilidad y la comunicación entre
+            compradores y vendedores para coordinar las entregas. Incluye
+            paneles de usuario, vendedor y administrador. La demo no procesa
+            pagos online de momento.
           </TypographyP>
           <ProjectsLinks live={this.live} />
         </div>

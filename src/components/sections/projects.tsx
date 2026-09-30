@@ -10,6 +10,7 @@ import { FloatingDock } from "../ui/floating-dock";
 import { ScrollArea } from "../ui/scroll-area";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { SiGithub } from "react-icons/si";
 import { motion } from "motion/react";
 
 import projects, { Project } from "@/data/projects";
@@ -77,9 +78,11 @@ const ProjectCard = ({ project }: { project: Project }) => {
                   <Link
                     href={project.github}
                     target="_blank"
-                    className="text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-2"
+                    aria-label="Código en GitHub"
+                    title="Código en GitHub"
+                    className="text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    Código
+                    <SiGithub className="w-5 h-5" />
                   </Link>
                 )}
                 {project.live && project.live !== "#" && (
