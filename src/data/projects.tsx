@@ -190,8 +190,7 @@ const projects: Project[] = [
           </TypographyP>
           <TypographyP className="font-mono">
             Proyecto orientado al diseño y desarrollo de páginas web para
-            clientes, donde reúne parte de sus proyectos como desarrollador
-            freelance.
+            clientes, donde reúne parte de sus proyectos.
           </TypographyP>
           <ProjectsLinks live={this.live} />
         </div>

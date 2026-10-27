@@ -163,7 +163,7 @@ export const EXPERIENCE: Experience[] = [
     startDate: "Abr 2025",
     endDate: "Ago 2025",
     title: "Desarrollo web — El Campito Zafra",
-    company: "Freelance",
+    company: "Prácticas remuneradas",
     description: [
       "Aplicación web de reservas de apartamentos rurales.",
       "Gestión de disponibilidad, sistema de reservas y notificaciones por correo electrónico.",
